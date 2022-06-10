@@ -15,50 +15,70 @@ const db_con = mysql.createConnection({
 });
 
 router.get('/get', (req, res)=>{
-    querry = "SELECT * FROM users";
-    db_con.query(querry, (req, result)=>{
-        res.status(200).json({
-            "data": result
+    try{
+        querry = "SELECT * FROM users";
+        db_con.query(querry, (req, result)=>{
+            res.status(200).json({
+                "data": result
+            })
         })
-    })
+    }catch(err){
+        console.log(err);
+    }
 })
 router.post('/post', (req, res)=>{
-    querry = `INSERT INTO users (name) VALUES ("${req.body.name}")`
-    db_con.query(querry, (req, result)=>{
-        res.status(200).json({
-            "message": "Inserted!"
+    try{
+        querry = `INSERT INTO users (name) VALUES ("${req.body.name}")`
+        db_con.query(querry, (req, result)=>{
+            res.status(200).json({
+                "message": "Inserted!"
+            })
         })
-    })
+    }catch(err){
+        console.log(err);
+    }
 })
 router.get('/get/:id', (req, res)=>{
-    querry = `SELECT * FROM users WHERE id = ${req.params.id}`;
-    db_con.query(querry, (req, result)=>{
-        if(result==""){
-            res.status(404).json({
-                "message": "Not found!"
-            })
-        }else{
-            res.status(200).json({
-                "message": result
-            })
-        }
-    })
+    try{
+        querry = `SELECT * FROM users WHERE id = ${req.params.id}`;
+        db_con.query(querry, (req, result)=>{
+            if(result==""){
+                res.status(404).json({
+                    "message": "Not found!"
+                })
+            }else{
+                res.status(200).json({
+                    "message": result
+                })
+            }
+        })
+    }catch(err){
+        console.log(err)
+    }
 })
 router.put('/update/:id', (req, res)=>{
-    querry = `UPDATE users SET name="${req.body.name}" WHERE id=${req.params.id}`
-    db_con.query(querry, (req, result)=>{
-        res.status(200).json({
-            "message": "Updated!"
+    try{
+        querry = `UPDATE users SET name="${req.body.name}" WHERE id=${req.params.id}`
+        db_con.query(querry, (req, result)=>{
+            res.status(200).json({
+                "message": "Updated!"
+            })
         })
-    })
+    }catch(err){
+        console.log(err)
+    }
 })
 router.delete('/delete/:id', (req, res)=>{
-    querry = `DELETE FROM users WHERE id = ${req.params.id}`
-    db_con.query(querry, (req, result)=>{
-        res.status(200).json({
-            "message": "Deleted!"
+    try{
+        querry = `DELETE FROM users WHERE id = ${req.params.id}`
+        db_con.query(querry, (req, result)=>{
+            res.status(200).json({
+                "message": "Deleted!"
+            })
         })
-    })
+    }catch(err){
+        console.log(err)
+    }
 })
 
 module.exports = router;
